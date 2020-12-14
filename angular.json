@@ -1,0 +1,146 @@
+{
+  "version": 1,
+  "projects": {
+    "cmd-alias-tester": {
+      "projectType": "application",
+      "root": "apps/cmd-alias-tester",
+      "sourceRoot": "apps/cmd-alias-tester/src",
+      "prefix": "cmd-alias-test",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/cmd-alias-tester",
+            "index": "apps/cmd-alias-tester/src/index.html",
+            "main": "apps/cmd-alias-tester/src/main.ts",
+            "polyfills": "apps/cmd-alias-tester/src/polyfills.ts",
+            "tsConfig": "apps/cmd-alias-tester/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/cmd-alias-tester/src/favicon.ico",
+              "apps/cmd-alias-tester/src/assets"
+            ],
+            "styles": ["apps/cmd-alias-tester/src/styles.css"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/cmd-alias-tester/src/environments/environment.ts",
+                  "with": "apps/cmd-alias-tester/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "cmd-alias-tester:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "cmd-alias-tester:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "cmd-alias-tester:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/cmd-alias-tester/tsconfig.app.json",
+              "apps/cmd-alias-tester/tsconfig.spec.json",
+              "apps/cmd-alias-tester/tsconfig.editor.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/cmd-alias-tester/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/cmd-alias-tester"],
+          "options": {
+            "jestConfig": "apps/cmd-alias-tester/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "cmd-alias-tester-e2e": {
+      "root": "apps/cmd-alias-tester-e2e",
+      "sourceRoot": "apps/cmd-alias-tester-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/cmd-alias-tester-e2e/cypress.json",
+            "tsConfig": "apps/cmd-alias-tester-e2e/tsconfig.e2e.json",
+            "devServerTarget": "cmd-alias-tester:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "cmd-alias-tester:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/cmd-alias-tester-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/cmd-alias-tester-e2e/**/*"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "cmd-alias-tester"
+}
